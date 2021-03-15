@@ -1,28 +1,51 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="main-app">
+    <h1 class="main-title">Pomodoro</h1>
+    <options></options>
+    <timer></timer>
+    <settings></settings>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Options from './components/Options.vue'
+import Timer from './components/Timer.vue'
+import Settings from './components/Settings.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Options,
+    Timer,
+    Settings
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-weight: bolder;
+    font-family: Raleway;
+    letter-spacing: 1.5px;
+  }
+
+  .main-app {
+    background: #1E2140;
+    background: radial-gradient(#262B55, #1E2140);
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-title {
+    font-size: 24px;
+    color: snow;
+  }
 </style>
