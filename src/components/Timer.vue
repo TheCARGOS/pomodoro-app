@@ -1,17 +1,16 @@
 <template>
-  <div class="timer">
+  <div class="timer" @click="togglePaused()">
     <vue-ellipse-progress
       @click="togglePaused()"
       :progress="progress"
       line="round"
       color="#F66E6F"
       :size="350"
-      :determinate="determinate"
       emptyColor="transparent"
       :legend="false"
       thickness="10px"
     >
-      <span class="timer__time" @click="togglePaused()" slot="legend-caption">
+      <span class="timer__time" slot="legend-caption">
         <span>{{ minPrefix }}{{ min }}</span>
         <span class="mx-2">:</span>
         <span>{{ secPrefix }}{{ sec }}</span>
@@ -26,19 +25,21 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 export default {
   name: 'Timer',
   data () {
     return {
-      progress: 0,
-      min: 1,
-      sec: 0,
-      maxTime: 2 * 60,
-      isPaused: false
+      progress: 0
     }
   },
   computed: {
+    ...mapState([
+      "min",
+      "sec",
+      "maxTime",
+      "isPaused"
+    ]),
     minPrefix() {
       return this.min < 10 ? "0" : "";
     },
@@ -52,24 +53,23 @@ export default {
   methods: {
     runTimer() {
       if (!this.isPaused) {
-        this.sec--
+        this.$store.dispatch("decrementSeconds")
         if (this.sec < 0) {
           if (this.min > 0) {
-            this.sec = 59
-            this.min--
+            this.$store.dispatch("setSeconds", 59)
+            this.$store.dispatch("decrementMinutes")
           } else {
-            this.isPaused = true
+            this.$store.dispatch("setIsPaused", false)
             this.progress = 0
-            this.sec = 0
-            this.min = 0
+            this.$store.dispatch("setSeconds", 0)
+            this.$store.dispatch("setMinutes", 0)
           }
         }
         this.progress = parseInt((((this.min * 60 + this.sec ) / this.maxTime) * 100 ))
       }
     },
     togglePaused () {
-      console.log(this.isPaused)
-      this.isPaused = !this.isPaused
+      this.$store.dispatch("setIsPaused", !this.isPaused)
     }
   }
 }

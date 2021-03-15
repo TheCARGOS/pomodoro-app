@@ -7,35 +7,29 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     name: "Options",
-    data () {
-        return {
-            options: ["pomodoro", "shortBreak", "longBreak"],
-            isPomodoroActive: true,
-            isShortBreakActive: false,
-            isLongBreakActive: false
-        }
-    },
+    computed: mapState([
+      "isPomodoroActive",
+      "isShortBreakActive",
+      "isLongBreakActive"
+    ]),
     methods: {
         setOption (selected) {
+            this.$store.dispatch("setOptionsToFalse")
             if ( selected === "shortBreak" ) {
-                this.setOptions(false)
-                this.isShortBreakActive = true
+                this.$store.state.isShortBreakActive = true
+                this.$store.dispatch("setTime", { min: 5, sec: 0 })
             } else {
                 if ( selected === "longBreak" ) {
-                    this.setOptions(false)
-                    this.isLongBreakActive = true
+                    this.$store.state.isLongBreakActive = true
+                    this.$store.dispatch("setTime", { min: 10, sec: 0 })
                 } else {
-                    this.setOptions(false)
-                    this.isPomodoroActive = true
+                    this.$store.dispatch("setTime", { min: 20, sec: 0 })
+                    this.$store.state.isPomodoroActive = true
                 }
             }
-        },
-        setOptions (bool) {
-            this.isPomodoroActive = bool
-            this.isShortBreakActive = bool
-            this.isLongBreakActive = bool
         }
     }
 }
