@@ -19,14 +19,18 @@ export default {
         setOption (selected) {
             this.$store.dispatch("setOptionsToFalse")
             if ( selected === "shortBreak" ) {
+                this.$store.dispatch("setMaxTime", this.$store.state.shortBreakTime)
                 this.$store.state.isShortBreakActive = true
-                this.$store.dispatch("setTime", { min: 5, sec: 0 })
+                this.$store.dispatch("setTime", { min: this.$store.state.shortBreakTime, sec: 0 })
             } else {
                 if ( selected === "longBreak" ) {
+                    this.$store.dispatch("setMaxTime", this.$store.state.longBreakTime)
                     this.$store.state.isLongBreakActive = true
-                    this.$store.dispatch("setTime", { min: 10, sec: 0 })
+                    this.$store.dispatch("setTime", { min: this.$store.state.longBreakTime, sec: 0 })
                 } else {
-                    this.$store.dispatch("setTime", { min: 20, sec: 0 })
+                    this.$store.dispatch("setMaxTime", this.$store.state.pomodoroTime)
+                    console.log(this.$store.state.shortBreakTime)
+                    this.$store.dispatch("setTime", { min: this.$store.state.pomodoroTime, sec: 0 })
                     this.$store.state.isPomodoroActive = true
                 }
             }

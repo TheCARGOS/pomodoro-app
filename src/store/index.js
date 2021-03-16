@@ -9,9 +9,12 @@ export default new Vuex.Store({
     isPomodoroActive: true,
     isShortBreakActive: false,
     isLongBreakActive: false,
-    min: 20,
+    min: 25,
     sec: 0,
-    maxTime: 1200
+    maxTime: 1200,
+    pomodoroTime: 25,
+    shortBreakTime: 5,
+    longBreakTime: 10
   },
   mutations: {
     setOptionsToFalse (state) {
@@ -36,8 +39,28 @@ export default new Vuex.Store({
     setMinutes ( state, value ) {
       state.min = value
     },
+    setMaxTime ( state, time ) {
+      state.maxTime = time
+    },
     setIsPaused (state, bool) {
       state.isPaused = bool
+    },
+    setSettings ( state, payload ) {
+      state.pomodoroTime = payload.newPomodoroTime
+      state.shortBreakTime = payload.newShortBreakTime
+      state.longBreakTime = payload.newLongBreakTime
+      if ( state.isShortBreakActive) {
+        state.min = payload.newShortBreakTime
+        state.maxTime = payload.newShortBreakTime
+      } else {
+        if ( state.isLongBreakActive ) {
+          state.min = payload.newLongBreakTime
+          state.maxTime = payload.newLongBreakTime
+        } else {
+          state.min = payload.newPomodoroTime
+          state.maxTime = payload.newPomodoroTime
+        }
+      }
     }
   },
   actions: {
@@ -59,8 +82,14 @@ export default new Vuex.Store({
     setMinutes (ctx, value) {
       ctx.commit("setMinutes", value)
     },
+    setMaxTime (ctx, time) {
+      ctx.commit("setMaxTime", time)
+    },
     setIsPaused (ctx, bool) {
       ctx.commit("setIsPaused", bool)
+    },
+    setSettings (ctx, payload) {
+      ctx.commit("setSettings", payload)
     }
   },
   modules: {
