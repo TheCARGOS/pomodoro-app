@@ -11,7 +11,7 @@ export default new Vuex.Store({
     isLongBreakActive: false,
     min: 25,
     sec: 0,
-    maxTime: 1200,
+    maxTime: 1500,
     pomodoroTime: 25,
     shortBreakTime: 5,
     longBreakTime: 10

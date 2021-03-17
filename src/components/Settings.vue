@@ -57,7 +57,7 @@ export default {
         }
     },
     mounted () {
-        this.$modal.show('vue-modal')
+        // this.$modal.show('vue-modal')
     }
 }
 </script>
